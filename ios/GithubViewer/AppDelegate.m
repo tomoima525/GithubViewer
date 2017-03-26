@@ -18,6 +18,19 @@
 {
   NSURL *jsCodeLocation;
 
+  NSError *e = nil;
+  NSString *envFile = [[NSBundle mainBundle] pathForResource:@"env" ofType:@"json"];
+  NSData *envData = [NSData dataWithContentsOfFile: envFile];
+  NSLog(@"Item: %@", envData);
+  NSDictionary *envDic = [NSJSONSerialization JSONObjectWithData:envData options:0 error:&e];
+  
+  if (!envDic) {
+    NSLog(@"Error parsing JSON: %@", e);
+  } else {
+      NSLog(@"Item: %@", envDic);
+  }
+
+
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
