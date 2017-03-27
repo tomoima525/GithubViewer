@@ -15,7 +15,7 @@ class FollowerList extends Component {
   static navigationOptions = {
     title: 'GithubViewer',
   };
-  // Initialize the hardcoded data
+
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
