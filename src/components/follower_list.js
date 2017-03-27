@@ -44,6 +44,7 @@ class FollowerList extends Component {
           dataSource={this.state.dataSource}
           renderRow={(data) => <Row obj={data} onPress={() => navigate("Profile", {data: data})}/>}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+          enableEmptySections={true}
         />
       </View>
     );
@@ -68,11 +69,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     margin: 10,
   },
   follower: {
-    padding: 10,
+    padding: 16,
     backgroundColor: '#F6F6F6'
   },
   separator: {
