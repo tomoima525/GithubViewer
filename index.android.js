@@ -7,45 +7,28 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
-  Text,
-  View
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import env from './src/env';
+import FollowerList from './src/components/follower_list';
+import ProfileScreen from './src/components/profile';
 
-export default class GithubViewer extends Component {
-  static navigationOptions = {
-    title: 'Welcome',
-  };
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <Button
-        title="Go to Jane's profile"
-        onPress={() =>
-          navigate('Profile', { name: 'Jane' });
-        }
-      />
-    );
-  }
+class GithubViewer extends Component {
+ constructor(props) {
+   super(props);
+   env.init(props);
+ }
+
+ render() {
+   return (
+     <AppNavigator ref={nav => {this.navigator = nav;}} />
+   );
+ }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+const AppNavigator = StackNavigator({
+  Home: { screen: FollowerList },
+  Profile: {screen: ProfileScreen },
 });
 
 AppRegistry.registerComponent('GithubViewer', () => GithubViewer);
