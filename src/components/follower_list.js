@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-import githubApi from '../epics/githubApi';
+//import githubApi from '../epics/githubApi';
 
 class FollowerList extends Component {
   static navigationOptions = {
@@ -20,29 +20,18 @@ class FollowerList extends Component {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      // dataSource: ds.cloneWithRows([
-      //   'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin'
-      // ])
       dataSource: ds.cloneWithRows([])
     };
   }
 
   componentDidMount(){
-    axios.get('/users/followers')
-    .then(function (response) {
-      console.log(response);
+    axios.get('https://api.github.com/user/followers')
+    .then(response => {
+      const arr = response.data;
+      this.setState({dataSource : this.state.dataSource.cloneWithRows(arr)});
     })
-    .catch(function (error) {
-      if (error.response) {
-      // The request was made, but the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else {
-      console.log('==== Error  ', error.message);
-    }
-    console.log('===== error cofig', error.config);
+    .catch(error => {
+      console.log(error);
     });
   }
 
@@ -53,7 +42,7 @@ class FollowerList extends Component {
         <Text style={styles.title}>My followers</Text>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(data) => <Row name={data} onPress={() => navigate("Profile", {name: data})}/>}
+          renderRow={(data) => <Row obj={data} onPress={() => navigate("Profile", {data: data})}/>}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         />
       </View>
@@ -64,7 +53,7 @@ class FollowerList extends Component {
 const Row = (props) => {
   return (
     <TouchableHighlight onPress={props.onPress}>
-      <Text style= {styles.follower}>{props.name}</Text>
+      <Text style= {styles.follower}>{props.obj.login}</Text>
     </TouchableHighlight>
   );
 }
